@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
-
+import postModule from './postModule';
 
 Vue.use(Vuex);
-Vue.use(axios);
 
 export default new Vuex.Store({
   state: {
@@ -14,5 +12,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    posts: postModule,
   },
 });

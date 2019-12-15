@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://jsonplaceholder.typicode.com',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
     },
