@@ -7,19 +7,20 @@
           style="box-shadow: 0 20px 30px -16px rgba(9,9,16,.2);"
           class="mx-auto"
           max-width="900"
+          v-if="postData"
           >
             <v-form
               ref="form"
               v-model="valid"
               lazy-validation
               class="px-10 py-10"
-              @submit.prevent="createPost()"
+              @submit.prevent="update()"
             >
               <h2 primary-title class="text-center mb-2">
-                Create Post
+                Edit Blog
               </h2>
               <v-text-field
-                v-model="form.title"
+                v-model="postData.title"
                 :counter="100"
                 :rules="titleRules"
                 label="Title"
@@ -33,12 +34,12 @@
                 name="body"
                 label="Body"
                 :counter="600"
-                v-model="form.body"
+                v-model="postData.body"
                 :rules="titleRules"
               ></v-textarea> -->
 
               <vue-simplemde
-                v-model="form.body"
+                v-model="postData.body"
                 name="body"
                 label="Body"
                 :class="error ? 'CodeMirrorError' : ''"
@@ -58,39 +59,24 @@
 
               <v-btn
                 :disabled="!valid"
-                color="success"
+                color="teal"
                 class="mr-4"
+                dark
                 @click="validate"
                 type="submit"
               >
-                Create
+                Update
+              </v-btn>
+
+              <v-btn
+                class="mr-4"
+                @click="cancelEdit()"
+                dark
+              >
+                Cancel
               </v-btn>
             </v-form>
 
-          </v-card>
-
-          <!-- Preview of Post  -->
-          <v-card
-          style="box-shadow: 0 20px 30px -16px rgba(9,9,16,.2);"
-          class="mx-auto mt-5"
-          max-width="900"
-          v-if="form.title || form.body"
-          >
-            <h2 primary-title class="text-center pt-6">
-              Preview
-            </h2>
-
-            <v-card-title class="headline" id="title">
-              {{form.title}}
-              <v-spacer></v-spacer>
-            </v-card-title>
-            <!-- <v-card-subtitle class="sub-title">Posted {{form.created_at}}</v-card-subtitle> -->
-
-            <v-divider class="mx-4"></v-divider>
-
-            <v-card-subtitle class="font-weight-bold" v-html="body">
-                <!-- {{form.body}} -->
-            </v-card-subtitle>
           </v-card>
         </v-col>
       </v-row>
@@ -99,21 +85,16 @@
 
 <script>
 import VueSimplemde from 'vue-simplemde/src/index.vue';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import md from 'marked';
 
 import { mapActions } from 'vuex';
 
 
 export default {
-  name: 'CreateBlog',
+  name: 'EditPost',
   components: { VueSimplemde },
+  props: ['postData'],
   data: () => ({
     valid: true,
-    form: {
-      title: '',
-      body: '',
-    },
     titleRules: [
       v => !!v || 'Title is required',
       v => (v && v.length <= 100) || 'Title must be less than 100 characters',
@@ -121,14 +102,11 @@ export default {
     error: null,
   }),
   computed: {
-    body() {
-      if (this.form.body) { return md.parse(this.form.body); }
-      return '';
-    },
   },
+  created() {},
   methods: {
     ...mapActions('posts', [
-      'storePost',
+      'updatePost',
     ]),
     validate() {
       this.bodyRules();
@@ -136,20 +114,23 @@ export default {
         this.snackbar = true;
       }
     },
-    createPost() {
-      if (this.form.title && this.form.body) {
-        this.storePost(this.form)
-          .then(() => this.$router.push('/'));
+    update() {
+      if (this.postData.title && this.postData.body) {
+        this.updatePost(this.postData)
+          .then(() => this.cancelEdit());
       }
     },
     bodyRules() {
-      if (this.form.body === '') {
+      if (this.postData.body === '') {
         this.valid = false;
         this.error = 'Body is required';
       } else {
         this.valid = true;
         this.error = null;
       }
+    },
+    cancelEdit() {
+      this.$emit('cancel');
     },
   },
 };

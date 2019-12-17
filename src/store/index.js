@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import postModule from './postModule';
+import postModule from './PostModule';
 
 Vue.use(Vuex);
 

@@ -24,6 +24,14 @@ export default {
 </script>
 
 <style lang="scss">
+
+.v-application {
+  font-family: 'Raleway', sans-serif !important;
+  #title {
+    font-family: 'Raleway', sans-serif !important;
+  }
+}
+
 .router-link{
   text-decoration: none;
   color: inherit !important;

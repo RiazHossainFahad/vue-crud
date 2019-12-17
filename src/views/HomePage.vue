@@ -27,7 +27,7 @@
     v-for="(post, index) in posts"
     :key="index"
     >
-    <single-post :data="post"></single-post>
+      <single-post :data="post"></single-post>
     </div>
   </div>
 </template>

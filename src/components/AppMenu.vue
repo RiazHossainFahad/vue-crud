@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar>
-      <v-toolbar-title>
+      <v-toolbar-title class="font-weight-bold">
         <router-link to="/" class="router-link-title" exact>
             Simple Blog
         </router-link>
@@ -10,12 +10,12 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text>
+        <v-btn text class="font-weight-bold">
             <router-link to="/" class="router-link" exact>
                 Home
             </router-link>
         </v-btn>
-        <v-btn text>
+        <v-btn text class="font-weight-bold">
             <router-link to="/create" class="router-link" exact>
                 Create Blog
             </router-link>
