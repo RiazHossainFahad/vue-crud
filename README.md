@@ -13,6 +13,10 @@ Features:
 
 ## Project setup
 ```
+git clone
+```
+
+```
 npm install
 ```
 - __The project is depends on API, So you need to follow the instructions from:__ https://github.com/RiazHossainFahad/CRUD-VUE_API
