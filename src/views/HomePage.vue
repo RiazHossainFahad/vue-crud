@@ -29,6 +29,17 @@
     >
       <single-post :data="post"></single-post>
     </div>
+    <div v-if="posts.length" class="text-center">
+      <v-pagination
+        v-model="pageNumbers.current_page"
+        :length="pageNumbers.last_page"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        @input="selectPage(pageNumbers.current_page)"
+        @next="nextPage(pageNumbers.current_page)"
+        @previous="previousPage(pageNumbers.current_page)"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -45,15 +56,29 @@ export default {
     ...mapState('posts', {
       posts: 'post',
       errors: 'error',
+      pageLinks: 'links',
+      pageNumbers: 'meta',
     }),
   },
   created() {
-    this.getPosts();
+    this.allPosts();
   },
   methods: {
     ...mapActions('posts', [
       'getPosts',
     ]),
+    allPosts() {
+      this.getPosts(this.pageNumbers.current_page);
+    },
+    selectPage(page) {
+      this.getPosts(page);
+    },
+    nextPage(page) {
+      this.getPosts(page);
+    },
+    previousPage(page) {
+      this.getPosts(page);
+    },
   },
 };
 </script>

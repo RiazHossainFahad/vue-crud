@@ -61,7 +61,6 @@
                 :disabled="!valid"
                 color="teal"
                 class="mr-4"
-                dark
                 @click="validate"
                 type="submit"
               >
@@ -86,7 +85,7 @@
 <script>
 import VueSimplemde from 'vue-simplemde/src/index.vue';
 
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 
 export default {
@@ -102,6 +101,7 @@ export default {
     error: null,
   }),
   computed: {
+    ...mapState('posts', { updatedPost: 'lastUpdatedData' }),
   },
   created() {},
   methods: {
@@ -114,10 +114,16 @@ export default {
         this.snackbar = true;
       }
     },
+    /** Update post */
     update() {
       if (this.postData.title && this.postData.body) {
-        this.updatePost(this.postData)
-          .then(() => this.cancelEdit());
+        if (this.postData.title.length < 101) {
+          this.updatePost(this.postData)
+            .then(() => {
+              this.postData.slug = this.updatedPost.slug;
+              this.cancelEdit();
+            });
+        }
       }
     },
     bodyRules() {

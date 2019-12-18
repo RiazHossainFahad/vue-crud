@@ -138,8 +138,10 @@ export default {
     },
     createPost() {
       if (this.form.title && this.form.body) {
-        this.storePost(this.form)
-          .then(() => this.$router.push('/'));
+        if (this.form.title.length < 101) {
+          this.storePost(this.form)
+            .then(() => this.$router.push('/'));
+        }
       }
     },
     bodyRules() {
